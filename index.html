@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview PDF Files from Droxi AI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 20px;
+        }
+        iframe {
+            width: 100%; /* Full width for better readability */
+            height: 600px; /* Increased height for better visibility */
+            border: none; /* Remove border for a cleaner look */
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>PDF Files from Droxi AI</h1>
+    <div id="pdf-container"></div>
+
+    <script>
+        const folderId = '1xGO8cjYl94WRkxSOmR0IDXmY4ILWygRx'; // Replace with your Google Drive folder ID
+        const apiKey = 'AIzaSyDsRRvbbzgQbYmJ2DJAaPTGj7kBthPPs-E'; // Replace with your Google API key
+
+        async function fetchPDFs() {
+            const response = await fetch(`https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+mimeType='application/pdf'&key=${apiKey}`);
+            const data = await response.json();
+            const pdfContainer = document.getElementById('pdf-container');
+
+            data.files.forEach(file => {
+                const iframe = document.createElement('iframe');
+                iframe.src = `https://drive.google.com/file/d/${file.id}/preview`;
+                pdfContainer.appendChild(iframe);
+            });
+        }
+
+        fetchPDFs();
+    </script>
+</body>
+</html>
